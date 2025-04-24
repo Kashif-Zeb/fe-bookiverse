@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+.navbar-right{
+  /* margin-left: 1rem; */
+  text-decoration:solid;
+  font-weight: bold;
+  font-size: 40px;
+  color: #000000;
+  display: flex; /* You missed this part */
+  justify-content:flex-start; /* This pushes items to the right */
+  align-content:flex-start;
+  padding-top: 30px;
+}

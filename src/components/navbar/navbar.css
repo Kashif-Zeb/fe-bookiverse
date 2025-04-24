@@ -1,0 +1,23 @@
+.my-breadcrumb {
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .my-breadcrumb .ant-breadcrumb-link {
+    color: #1890ff;
+  }
+  
+  .my-breadcrumb .ant-breadcrumb-separator {
+    color: #999;
+  }
+  .navbar-right{
+    /* margin-left: 1rem; */
+    text-decoration:solid;
+    font-weight: bold;
+    font-size: 40px;
+    color: #000000;
+    display: flex; /* You missed this part */
+    justify-content: flex-end; /* This pushes items to the right */
+    align-content:flex-start;
+  }

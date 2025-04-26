@@ -5,6 +5,8 @@ import NotFoundPage from "./containers/notFoundPage/notFound";
 import HeaderLayout from "./containers/headerLayout/headerLayout";
 import Login from "./containers/login/login";
 import Register from "./containers/register/register";
+
+import Dashboard from "./containers/dashboard/dashboard"
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,6 +17,7 @@ function App() {
         <Route path='*' element={<NotFoundPage />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/Dashboard" element = {<Dashboard/>}/>
       </Route>
     </>
     )

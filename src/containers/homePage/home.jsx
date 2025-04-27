@@ -4,7 +4,7 @@ import { useRef } from 'react'
 const Home = () => {
   const ref = useRef()
   return (
-    <div style={{}}>
+    <>
       <Space direction="vertical">
       <Carousel autoplay style={{width:"1400px",height:"400px",margin: "0 auto"}} draggable="true" ref={ref} pauseOnHover="true" pauseOnDotsHover='true' effect="fade">
       {["flight", "hotels", "travel", "kabir-resturant-peshawer"].map((name) => (
@@ -27,10 +27,14 @@ const Home = () => {
         <div style={{backgroundColor:"red"}}>bye</div>
         <div style={{backgroundColor:"pink"}}>momina</div> */}
       </Carousel>
-      <Button onClick={()=>{ref.current.prev()}} color="default" variant="solid">Previous</Button>
       </Space>
-      <Button onClick={()=>{ref.current.next()}} color="default"  variant="solid">Next</Button>
-    </div>
+      <div style={{display:'flex'}}>
+      <Space direction='horizontal' size={1197}>
+        <Button onClick={()=>{ref.current.prev()}} color="default" variant="solid" size='large' style={{marginLeft:"5px"}}>Previous</Button>
+        <Button onClick={()=>{ref.current.next()}} color="default"  variant="solid" size='large'>Next</Button>
+      </Space>
+      </div>
+    </>
   )
 }
 

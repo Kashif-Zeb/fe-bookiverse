@@ -20,7 +20,6 @@ function* registerUser(action) {
 
         yield put(apicallError(error.response.data.message || error.response.data.json));
       }
-      console.log(error)
     }
   }
   

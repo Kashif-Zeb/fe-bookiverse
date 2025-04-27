@@ -23,7 +23,6 @@ const Navbar = () => {
    ]
    const navigate = useNavigate();
    function onchange_fun(e){
-    console.log(e)
     if (typeof e?.key === 'string') {
       navigate(e.key); // ✅ only navigate if it's a proper event object
     } else {

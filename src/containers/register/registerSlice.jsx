@@ -22,8 +22,8 @@ const registerSlice = createSlice({
             state.registeration_data.loading = false
         },
         apicallError(state,{payload}){
-            state.registeration_data.loading=false
             state.registeration_data.error = payload
+            state.registeration_data.loading=false
         }
     }
 })

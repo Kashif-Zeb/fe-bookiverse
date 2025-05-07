@@ -1,7 +1,7 @@
 import {React,useState,useEffect} from 'react'
-import { Form ,Input, Button, Space, Divider} from 'antd'
+import { Form ,Input, Button, Space} from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { sendingapiCallLogin } from './loginSlice'
 import   AlertCustom from "../../components/alert/alert"
 
@@ -18,7 +18,7 @@ const Login = () => {
   )
   const [submited ,setSubmited] = useState(false)
 
-  const {loading , data , error} = useSelector((state)=>state.login.login_data)
+  const {loading  , error} = useSelector((state)=>state.login.login_data)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -39,10 +39,11 @@ const Login = () => {
         message: 'you logged in successfully',
         visible:true
       })
-      navigate('/dashboard')
+      // navigate('/Dashboard')
+      window.location.href = '/Dashboard';
     }
     setSubmited(false)
-  },[loading,error,submited])
+  },[loading,error,submited,navigate])
 
   useEffect(()=>{
     if (!alert.visible) return

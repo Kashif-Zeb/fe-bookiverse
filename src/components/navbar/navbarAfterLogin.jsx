@@ -1,62 +1,112 @@
-import { HomeOutlined, BookOutlined , ContactsOutlined, LoginOutlined } from '@ant-design/icons';
-import { Menu , Layout, Sider } from 'antd';
-import { useNavigate } from 'react-router-dom';
-
-
+import { HomeOutlined ,LogoutOutlined,DesktopOutlined,CarOutlined,CameraOutlined,ShopOutlined} from '@ant-design/icons';
+import { Menu , Layout} from 'antd';
+import { Outlet,useNavigate ,NavLink} from 'react-router-dom';
+import React from 'react';
+import { FaPlane } from "react-icons/fa";
 
 const NavbarAfterLogin = ()=>{
-    const { Sider, Content } = Layout;  // 👈 Extract Sider and Content from Layout
+  const { Header, Content, Footer, Sider } = Layout;
+
+  const siderStyle = {
+    overflow: 'auto',
+    height: '100vh',
+    position: 'sticky',
+    insetInlineStart: 0,
+    top: 0,
+    bottom: 0,
+    scrollbarWidth: 'thin',
+    scrollbarGutter: 'stable',
+  }; // 👈 Extract Sider and Content from Layout
 
     const navigate = useNavigate()
     const menu_Items = [
         {
             label: 'Dashboard',
             key: '/Dashboard',
-            icon: <HomeOutlined />,
+            icon: <DesktopOutlined />,
         },
         {
             label: 'Flight',
             key: '/Flight',
-            icon: <HomeOutlined />,
+            icon: <FaPlane />,
         },
         {
             label: 'Hotel',
             key: '/Hotel',
             icon: <HomeOutlined />,
-        },
-        {
+          },
+          {
             label: 'Resturants',
             key: '/Resturants',
-            icon: <HomeOutlined />,
+            icon: <ShopOutlined />,
         },
         {
             label: 'Cars',
             key: '/Cars',
-            icon: <HomeOutlined />,
+            icon: <CarOutlined />,
         },
         {
             label: 'Tour Places',
-            key: '/Tourlaces',
-            icon: <HomeOutlined />,
+            key: '/Tourplaces',
+            icon: <CameraOutlined />,
         },
+        {
+          label: 'Signout',
+          key: '/signout',
+          icon: <LogoutOutlined />,
+          danger:true
+      },
     ]
 
     function clickMenu(e){
-        if (typeof e?.key==='string'){
-            navigate(e.key)
-        }
-        else{
-            console.log("invalid click event perform")
-        }
+      const key = e?.key;
+
+      if (typeof key === 'string') {
+          if (key === '/signout') {
+              localStorage.removeItem('access_token');
+              localStorage.removeItem('refresh_token');
+              localStorage.removeItem('user_details');
+              navigate('/login');
+          } else {
+              navigate(key);
+          }
+      } else {
+          console.log("Invalid click event performed");
+      }
     }
 
+      // const theme = {
+      //   components: {
+      //     Menu: {
+      //       // horizontalLineHeight:'70px',
+      //       // horizontalLineHeight:"24px"
+      //       lineHeight:"45",
+      //       lineWidth:"45"
+      //     },
+      //   },
+      // }
+      
     return(
-        <Layout>
-        <Sider>
+        
 
-            <Menu items={menu_Items} onClick={(e)=>{clickMenu(e)}} mode='inline' defaultActiveFirst='/Dashboard'/>
+    //         <Menu items={menu_Items} onClick={(e)=>{clickMenu(e)}} mode='inline' defaultActiveFirst='/Dashboard'/>
+    <Layout hasSider>
+      <Sider style={siderStyle}>
+        <div className="demo-logo-vertical" />
+        <Menu theme="dark" items={menu_Items} onClick={(e)=>{clickMenu(e)}} mode='inline' defaultActiveFirst='/Dashboard' />
       </Sider>
+      <Layout>
+        <Header style={{ padding: 0, background: "white" }}>
+        <NavLink style={{ color: "black", paddingLeft: "70px", fontSize:"30px" }} to='/Dashboard' >BookiVerse</NavLink>
+          </Header> 
+        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Outlet />
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        </Footer>
       </Layout>
+    </Layout>
     )
 
 }

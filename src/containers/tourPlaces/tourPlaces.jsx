@@ -2,6 +2,7 @@ import React from 'react'
 
 const TourPlaces = () => {
   return (
+    
     <div>TourPlaces</div>
   )
 }

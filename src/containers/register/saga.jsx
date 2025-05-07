@@ -13,8 +13,8 @@ function* registerUser(action) {
       yield put(apicallSuccess(response.data));
     } catch (error) {
       const status = error.response?.status;
-      if (status===422){
-        yield put(apicallError(error.response.data.message || error.response.data.json));
+      if (status==='422'){
+        yield put(apicallError(error.response.data.message || error.response.data.json || "Failed"));
       }
       else{
 

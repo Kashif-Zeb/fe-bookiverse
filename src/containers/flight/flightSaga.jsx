@@ -10,7 +10,7 @@ function* getFlightData(action){
               Authorization: `Bearer ${userinfo}`
             }
           };
-        const requestURL = `${apiEndpoint}/get-all-flights`
+        const requestURL = `${apiEndpoint}/flight`
         const response = yield call(axios.get,requestURL,headers)
         yield put(apicallSuccessFlight(response.data))
     }

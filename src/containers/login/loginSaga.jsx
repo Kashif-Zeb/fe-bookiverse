@@ -9,12 +9,11 @@ function* login_Api_Call(action){
 
         const requestURL = `${apiEndpoint}/login`
         const response = yield call(axios.post,requestURL,action.payload)
-        yield console.log(response.data)
         const data = response.data
-        yield put(apicallSuccessLogin(response.data))
         yield localStorage.setItem('access_token', data['access_token']);
-        yield  localStorage.setItem('refresh_token', data['refresh_token']);
+        yield localStorage.setItem('refresh_token', data['refresh_token']);
         yield localStorage.setItem('user_details', JSON.stringify(data['user_details']));
+        yield put(apicallSuccessLogin(response.data))
     }
     catch(error){
         yield put(apicallErrorLogin(error.response.data.message || error.response.data.json))

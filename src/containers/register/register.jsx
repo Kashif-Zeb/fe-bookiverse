@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import registerUser from "./saga"
 import { useNavigate } from 'react-router-dom';
 import { sendingapiCall } from './registerSlice';
+
+
 const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const Register = () => {
     if (loading) return;             // wait until the API finishes
 
     // now loading===false && submitted===true
+    console.log(error)
     if (error) {
       setAlert({
         type: 'error',

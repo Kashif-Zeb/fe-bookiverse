@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table,Spin } from 'antd'
+import { Table,Spin,ConfigProvider } from 'antd'
 import { useDispatch,useSelector } from 'react-redux'
 import { useState ,useEffect,useMemo} from 'react'
 import { sendingapiCallFlight } from './flightSlice'
@@ -8,6 +8,10 @@ import { createStyles } from 'antd-style';
 import { NavLink } from 'react-router-dom'
 
 const Flight = () => {
+  const [paginationed, setPagination] = useState({
+    current: 1,
+    pageSize: 10, // Default page size
+  });
   const useStyle = createStyles(({ css, token }) => {
     const { antCls } = token;
     return {
@@ -71,7 +75,30 @@ const Flight = () => {
       render: () => <NavLink to={"/kak"}>Buy</NavLink>,
     },
   ],[]);
-  if (loading) return <Spin/>
+  const theme = {
+    components:{
+      Table:{
+        bodySortBg:'black',
+        headerBg:'rgb(192, 192, 192)'
+      }
+    }
+  }
+  const handlePageChange = (page, pageSize) => {
+    console.log(page,pageSize)
+    setPagination(prev => ({
+      ...prev,
+      current: page,
+      pageSize: pageSize,
+    }));
+  };
+
+  const handlePageSizeChange = (current, size) => {
+    setPagination({
+      current: 1, // Reset to first page when changing page size
+      pageSize: size,
+    });
+  };
+  if (loading) return <Spin style={{display:"flex",alignContent:"center",justifyContent:"center"}}/>
   return (
 
     <>
@@ -79,16 +106,26 @@ const Flight = () => {
     type={alert.type}
     message={alert.message}
     visible={alert.visible}/>
+    <ConfigProvider theme={theme}>
 
     <Table
-    bordered
+    bordered={true}
     className={useStyle.customTable}
     columns={columns}
     dataSource={data}
     scroll={{ x: 'max-content' }}
     pagination={false}
     rowKey="flight_id"
+    pagination={{
+      current: paginationed.current,
+      pageSize: paginationed.pageSize,
+      pageSizeOptions: ['10', '20', '50', '100'],
+      showSizeChanger: true,
+      onChange: handlePageChange,
+      onShowSizeChange: handlePageSizeChange,
+    }}
     />
+    </ConfigProvider>
     </>
   )
 }

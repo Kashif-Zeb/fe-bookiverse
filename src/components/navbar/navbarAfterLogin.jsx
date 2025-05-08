@@ -66,7 +66,8 @@ const NavbarAfterLogin = ()=>{
               localStorage.removeItem('access_token');
               localStorage.removeItem('refresh_token');
               localStorage.removeItem('user_details');
-              navigate('/login');
+              // navigate('/login');
+              window.location.href = "/login"
           } else {
               navigate(key);
           }

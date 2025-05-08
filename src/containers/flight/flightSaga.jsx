@@ -1,17 +1,17 @@
-import axios from "axios";
+import axiosInstance from "../../store/api";
 import apiEndpoint from "../../store/apiEndpoint";
 import { call,takeLatest,put } from "redux-saga/effects";
 import { sendingapiCallFlight,apicallErrorFlight,apicallSuccessFlight } from "./flightSlice";
 function* getFlightData(action){
     try{
         const userinfo = localStorage.getItem("access_token") 
-        const headers = {
-            headers: {  // Note: axios expects headers inside a 'headers' property
-              Authorization: `Bearer ${userinfo}`
-            }
-          };
+        // const headers = {
+        //     headers: {  // Note: axios expects headers inside a 'headers' property
+        //       Authorization: `Bearer ${userinfo}`
+        //     }
+        //   };
         const requestURL = `${apiEndpoint}/flight`
-        const response = yield call(axios.get,requestURL,headers)
+        const response = yield call(axiosInstance.get,requestURL)
         yield put(apicallSuccessFlight(response.data))
     }
     catch(error){

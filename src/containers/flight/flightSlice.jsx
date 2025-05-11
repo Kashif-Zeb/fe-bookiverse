@@ -14,7 +14,7 @@ const flightSlice = createSlice({
     name:"flight",
     initialState,
     reducers:{
-        sendingapiCallFlight(state){
+        sendingapiCallFlight(state,{payload}){
             state.flights_data.loading = true
             state.flights_data.error = null
         },

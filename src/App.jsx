@@ -10,18 +10,19 @@ import Cars from "./containers/cars/cars";
 import Resturant from "./containers/resturant/resturant";
 import Flight from "./containers/flight/flight";
 import Hotel from "./containers/hotel/hotel";
+import MainHotel from "./containers/hotel/mainHotel"
 import TourPlaces from "./containers/tourPlaces/tourPlaces";
 import Dashboard from "./containers/dashboard/dashboard"
 import ProtectedRoute from "./components/protectedRoute/protectedRoute"
 import { useEffect } from "react";
 function App() {
-  const user = localStorage.getItem("user_details")
+  const user = sessionStorage.getItem("user_details")
 
   // useEffect(() => {
   //   const handleCleanup = () => {
-  //     localStorage.removeItem("access_token");
-  //     localStorage.removeItem("refresh_token");
-  //     localStorage.removeItem("user_details");
+  //     sessionStorage.removeItem("access_token");
+  //     sessionStorage.removeItem("refresh_token");
+  //     sessionStorage.removeItem("user_details");
   //     // You can add API call for server-side logout here if needed
   //   };
 
@@ -64,7 +65,7 @@ function App() {
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/Tourplaces" element={<TourPlaces />} />
               <Route path="/Flight" element={<Flight />} />
-              <Route path="/Hotel" element={<Hotel />} />
+              <Route path="/Hotel" element={<MainHotel />} />
               <Route path="/Resturants" element={<Resturant />} />
               <Route path="/Cars" element={<Cars />} />
               {/* <Route index element={<Navigate to="/Dashboard" />} /> */}

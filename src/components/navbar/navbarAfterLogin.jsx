@@ -63,9 +63,9 @@ const NavbarAfterLogin = ()=>{
 
       if (typeof key === 'string') {
           if (key === '/signout') {
-              localStorage.removeItem('access_token');
-              localStorage.removeItem('refresh_token');
-              localStorage.removeItem('user_details');
+              sessionStorage.removeItem('access_token');
+              sessionStorage.removeItem('refresh_token');
+              sessionStorage.removeItem('user_details');
               // navigate('/login');
               window.location.href = "/login"
           } else {

@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
   }
 });
 //set authorization header if token exist
-const token = localStorage.getItem('access_token');
+const token = sessionStorage.getItem('access_token');
 if (token){
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
     if (error.response && (error.response.status===401) && !originalRequest._retry){
       console.log("401 occured")
       originalRequest._retry = true
-      const refresh_token = localStorage.getItem("refresh_token")
+      const refresh_token = sessionStorage.getItem("refresh_token")
       if (!refresh_token){
         window.location.href = '/login'
         return Promise.reject(error)
@@ -44,8 +44,8 @@ axiosInstance.interceptors.response.use(
         // refresh the token
         const response = await axios.post(`${apiEndpoint}/api/refresh`,{refresh_token:refresh_token})
         const {access_token,refresh_token} = response.data
-        localStorage.setItem('access_token',access_token)
-        localStorage.setItem('refresh_token',refresh_token)
+        sessionStorage.setItem('access_token',access_token)
+        sessionStorage.setItem('refresh_token',refresh_token)
         
 
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${access_token}`
@@ -61,8 +61,8 @@ axiosInstance.interceptors.response.use(
         return retryOriginalRequest
       }
       catch(err){
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
+        sessionStorage.removeItem('access_token')
+        sessionStorage.removeItem('refresh_token')
         failedRequestsQueue.forEach(({reject})=> reject(err));
         failedRequestsQueue = []
         return Promise.reject(err)

@@ -11,11 +11,13 @@ import { sendingapiCallHotel } from '../hotel/hotelSlice'
 const Hotel = () => {
   const {data ,error,loading} = useSelector((state)=>state.hotel.hotels_data)
   const [form] = Form.useForm();
-    const [paginationed, setPagination] = useState({
-      current: 1,
-      pageSize: 10, // Default page size
-      total: 0
-    });
+    // const [paginationed, setPagination] = useState({
+    //   current: 1,
+    //   pageSize: 10, // Default page size
+    //   total: 0
+    // });
+    const [page , setPage] = useState(1)
+    const [perPage,setPerPage] = useState(10)
     const [HotelName , setHotelName] = useState()
     const [HotelRoom , setHotelRoom] = useState()
     const [MinPrice , setMinPrice] = useState()
@@ -68,12 +70,12 @@ const Hotel = () => {
       // send api call 
     useEffect(()=>{
       const payload = {
-        "page":paginationed.current,
-        "per_page":paginationed.pageSize
+        page,
+        "per_page":perPage
       }
       dispatch(sendingapiCallHotel(payload))
       
-    },[dispatch,paginationed])
+    },[page,perPage,dispatch])
   
     // table columns
     const columns = useMemo(() => [
@@ -99,12 +101,8 @@ const Hotel = () => {
     }
     // handle the page change functionality
     const handlePageChange = (page, pageSize) => {
-      setPagination(prev => ({
-        ...prev,
-        current: page,
-        pageSize: pageSize,
-        total:data.count
-      }));
+      setPage(page)
+      setPerPage(pageSize)
       window.scrollTo({
         top: 0,
         behavior: 'smooth' // for smooth scrolling
@@ -113,11 +111,8 @@ const Hotel = () => {
     // handle per page  functionality
   
     const handlePageSizeChange = (current, size) => {
-      setPagination({
-        current: 1, // Reset to first page when changing page size
-        pageSize: size,
-        total:data.count
-      });
+      setPage(1)
+      setPerPage(size)
       window.scrollTo({
         top: 0,
         behavior: 'smooth' // for smooth scrolling
@@ -132,8 +127,8 @@ const Hotel = () => {
         "min_price":MinPrice,
         "max_price":MaxPrice,
         "ordering":SetOrdering,
-        "page":paginationed.current,
-        "per_page":paginationed.pageSize
+        "page":page,
+        "per_page":perPage
       }
       dispatch(sendingapiCallHotel(payload))
     }
@@ -148,8 +143,8 @@ const Hotel = () => {
   
     if (!allEmpty) {
       const payload = {
-        "page":paginationed.current,
-        "per_page":paginationed.pageSize
+        "page":page,
+        "per_page":perPage
       }
       dispatch(sendingapiCallHotel(payload));
     }
@@ -219,9 +214,9 @@ const Hotel = () => {
       scroll={{ x: 'max-content' }}
       rowKey="hotel_id"
       pagination={{
-        current: paginationed.current,
-        pageSize: paginationed.pageSize,
-        total: paginationed.total,
+        current: page,
+        pageSize: perPage,
+        total: data.count,
         showTitle:true,
         pageSizeOptions: ['10', '20', '50', '100'],
         showSizeChanger: true,

@@ -1,7 +1,8 @@
 import axiosInstance from "../../store/api";
 import apiEndpoint from "../../store/apiEndpoint";
 import { call,takeLatest,put } from "redux-saga/effects";
-import { sendingapiCallHotel,apicallErrorHotel,apicallSuccessHotel } from "./hotelSlice";
+import { sendingapiCallHotel,apicallErrorHotel,apicallSuccessHotel,sendingApiCallAddHotel,apicallSuccessAddHotel,apicallErrorAddHotel } from "./hotelSlice";
+import { act } from "react";
 function* getHotelData(action){
     try{
       
@@ -24,7 +25,7 @@ function* getHotelData(action){
         yield put(apicallSuccessHotel(response.data))
         }
         else{
-            const requestURL = `${apiEndpoint}/hotel?page=${payload.current}&per_page=${payload.pageSize}`
+            const requestURL = `${apiEndpoint}/hotel?page=${payload.page}&per_page=${payload.pageSize}`
             const response = yield call(axiosInstance.get,requestURL)
             yield put(apicallSuccessHotel(response.data))
 
@@ -35,8 +36,25 @@ function* getHotelData(action){
     }
 }
 
+function* addHotel(action){
+  try{
+    const requestURL = `${apiEndpoint}/hotel`
+    const response = yield call(axiosInstance.post,requestURL,action.payload)
+    if (response.status===200){
+      const msg = {
+        "msg":"hotel data is added successfully"
+      }
+      yield put(apicallSuccessAddHotel(msg))
+    }
+
+  }
+  catch(error){
+    yield apicallErrorAddHotel(error.response?.data?.message || error.response?.data?.json || "Something went wrong")
+  }
+}
 
 function* watchHotel(){
     yield takeLatest(sendingapiCallHotel.type,getHotelData)
+    yield takeLatest(sendingApiCallAddHotel.type,addHotel)
 }
 export default watchHotel

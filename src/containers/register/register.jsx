@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react'
-import { Form, Input, Button , Switch, Alert} from 'antd'
+import { Form, Input, Button , Switch, Alert,Row,Col,Typography} from 'antd'
 import { useDispatch, useSelector } from "react-redux";
 import registerUser from "./saga"
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { sendingapiCall } from './registerSlice';
 
 
 const Register = () => {
+  const  {Title} = Typography
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const { loading, error, data } = useSelector(
@@ -29,11 +30,18 @@ const Register = () => {
     if (loading) return;             // wait until the API finishes
 
     // now loading===false && submitted===true
-    console.log(error)
     if (error) {
+      const msg = ()=>{
+        if (error?.email){
+          return error.email
+        }
+        if (error?.password){
+          return error.email
+        }
+      }
       setAlert({
         type: 'error',
-        message: `Registration failed: ${String(error).slice(0,20)}`,
+        message: `Registration failed: ${msg()}`,
         visible: true,
       });
     } else {
@@ -98,7 +106,29 @@ const Register = () => {
         />
       )}
       </div>
-
+      <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to right, #6a11cb, #2575fc)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "40px 30px",
+          borderRadius: 10,
+          width: "100%",
+          maxWidth: 600,
+          boxShadow: "0 0 15px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+      <Title level={3} style={{ textAlign: "center", marginBottom: 30 }}>
+        Registration
+      </Title>
     <Form
     {...layout}
     name="registrer_form"
@@ -115,15 +145,39 @@ const Register = () => {
     <Form.Item name={['user', 'password']} label="Password" rules={[{ required:true}]}>
     <Input.Password placeholder="input password" onChange={(e)=>{setpassword(e.target.value)}}/>
     </Form.Item>
+    <Form.Item
+      label="Confirm Password"
+      name="confirmPassword"
+      dependencies={["password"]}
+      rules={[
+        { required: true, message: "Please confirm your password" },
+        {
+          validator(_, value) {
+            if (!value || password === value) {
+              return Promise.resolve();
+            }
+            return Promise.reject("Passwords do not match!");
+          },
+        },
+      ]}
+      >
+      <Input.Password placeholder="Confirm your password" />
+    </Form.Item>
     <Form.Item name={['user', 'isagent']} label="Role">
       <Switch checkedChildren="Agent" unCheckedChildren="User" onChange={(e)=>{setisagent(prev => !prev);}}/>
     </Form.Item>
     <Form.Item label={null}>
-      <Button type="primary" htmlType="submit" loading={loading}>
+      <Button type="primary" htmlType="submit" loading={loading} style={{
+                background: "linear-gradient(to right, #6a11cb, #2575fc)",
+                border: "none",
+              }}>
         Submit
       </Button>
     </Form.Item>
   </Form>
+
+  </div>
+  </div>
   </>
   )
 }

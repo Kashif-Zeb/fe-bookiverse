@@ -11,7 +11,7 @@ const MainHotel = () => {
             key: 'get_flight',
             label: (
               <>
-                <AndroidOutlined /> Flight Details
+                <AndroidOutlined /> Hotel Details
               </>
             ),
             children: <Hotel />,
@@ -20,7 +20,7 @@ const MainHotel = () => {
             key: 'add_flight',
             label: (
               <>
-                <AppstoreAddOutlined /> Add Flight
+                <AppstoreAddOutlined /> Add Hotel
               </>
             ),
             children: <AddHotel />,

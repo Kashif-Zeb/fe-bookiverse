@@ -1,9 +1,10 @@
 import React from 'react'
 import { Button, ConfigProvider, Flex, Grid, Menu, Space } from "antd";
 import { HomeOutlined, BookOutlined , ContactsOutlined, LoginOutlined } from '@ant-design/icons';
-import { useNavigate , NavLink} from 'react-router-dom';
+import { useNavigate , NavLink,useLocation} from 'react-router-dom';
 import { type } from '@testing-library/user-event/dist/type';
 const Navbar = () => {
+  const location = useLocation()
    const items_in_menu = [
     {
       label: 'Home',
@@ -37,11 +38,11 @@ const Navbar = () => {
     navigate("/register")
    }
   return ( 
-    
+    <>
   <div style={{display: "flex", alignItems: "center" }}>
     <Space direction="horizontal" size="large">
-    <NavLink style={{ color: "black", paddingLeft: "70px", fontSize:"30px" }} >BookiVerse</NavLink>
-    <Menu items={items_in_menu} mode='horizontal' onClick={(e)=>{onchange_fun(e)}} defaultSelectedKeys="/" style={{}}></Menu>
+    <NavLink style={{ color: "black", paddingLeft: "70px", fontSize:"30px" }} to={'/'}>BookiVerse</NavLink>
+    <Menu items={items_in_menu} mode='horizontal' onClick={(e)=>{onchange_fun(e)}} defaultSelectedKeys="/" selectedKeys={[location.pathname]} style={{}}></Menu>
     <div style={{paddingLeft:"500px"}}>
     <Space direction="horizontal" size="large">
       <Button type='primary' icon={<LoginOutlined/>} onClick={(e)=>{login_button(e)}}>Login</Button>
@@ -59,6 +60,7 @@ const Navbar = () => {
     </div>
     </Space>
   </div>
+  </>
   )
 }
 

@@ -7,6 +7,11 @@ const initialState = {
         loading:false,
         error:null
         
+    },
+    hotel_msg:{
+        data:{},
+        loading:false,
+        error:null
     }
 }
 
@@ -25,9 +30,21 @@ const hotelSlice = createSlice({
         apicallErrorHotel(state, {payload}){
             state.hotels_data.error = payload
             state.hotels_data.loading = false
-        }
+        },
+        sendingApiCallAddHotel(state,{actions}){
+            state.hotel_msg.loading = true
+            state.hotel_msg.error = null
+        },
+        apicallSuccessAddHotel(state,{payload}){
+            state.hotel_msg.data = payload
+            state.hotel_msg.loading = false
+        },
+        apicallErrorAddHotel(state, {payload}){
+            state.hotel_msg.error = payload
+            state.hotel_msg.loading = false
+        },
     }
 })
 
-export const {apicallErrorHotel,apicallSuccessHotel,sendingapiCallHotel} = hotelSlice.actions
+export const {apicallErrorHotel,apicallSuccessHotel,sendingapiCallHotel,sendingApiCallAddHotel,apicallSuccessAddHotel,apicallErrorAddHotel} = hotelSlice.actions
 export default hotelSlice.reducer
